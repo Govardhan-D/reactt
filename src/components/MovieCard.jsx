@@ -11,7 +11,7 @@ export default function MovieCard({ movie }) {
     }
   };
   return (
-    <div className="shadow-lg relative bg-white p-2 flex flex-col justify-center items-center rounded-lg gap-5 w-[350px]">
+    <div className="shadow-lg relative bg-white p-2 flex flex-col justify-center items-center rounded-lg gap-5 w-[350px] text-black">
       <img
         src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
         className="w-full h-full object-cover"

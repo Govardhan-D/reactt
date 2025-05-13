@@ -40,21 +40,26 @@ export default function Home() {
     return () => clearTimeout(handler);
   }, [query]);
   return (
-    <div className="w-full bg-[#2E282A] min-h-screen flex flex-col items-center p-10">
+    <div className="w-full bg-[#2E282A] min-h-screen flex flex-col items-center p-10 text-white">
       <NavBar />
       <div className="flex flex-col justify-center items-center">
-        <h1 className="text-white text-7xl mb-4">LetterBoxd</h1>
+        <h1 className="text-7xl mb-4">LetterBoxd</h1>
         <input
           type="text"
-          className="bg-[#F4F7F5] w-[400px] h-[35px] shadow-sm p-2"
+          className="bg-[#F4F7F5] w-[400px] h-[35px] shadow-sm p-2 text-black"
           value={query}
           onChange={handleQuery}
         />
       </div>
+      {movies === popularMovies.current ? (
+        <p>You are now seeing Popular movies</p>
+      ) : (
+        <p>Search results for {query}</p>
+      )}
 
       <div className="grid grid-cols-4 gap-5 mt-5">
         {loading && <p>Loading</p>}
-        {movies === popularMovies.current}
+
         {!loading &&
           movies.length > 0 &&
           movies.map((movie) => <MovieCard movie={movie} key={movie.id} />)}
