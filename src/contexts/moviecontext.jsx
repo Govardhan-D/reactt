@@ -25,7 +25,6 @@ export default function MovieContextProvider({ children }) {
     setFavorites((prev) => [...prev, movie]);
   };
   const removeFromFavorites = (movieID) => {
-    console.log(movieID);
     setFavorites((prev) => prev.filter((movie) => movie.id !== movieID));
   };
   const isFavorite = (movieID) => {

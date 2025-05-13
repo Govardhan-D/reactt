@@ -9,7 +9,7 @@ export default function Favorites() {
       <NavBar />
       {favorites.length == 0 && <p>You have no favorites</p>}
 
-      <div className="grid grid-cols-4 gap-5 mt-5">
+      <div className="grid grid-cols-4 gap-5 mt-5 text-black">
         {favorites.length > 0 &&
           favorites.map((favorite) => {
             return <MovieCard movie={favorite} key={favorite.id} />;
