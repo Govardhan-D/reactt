@@ -15,10 +15,14 @@ export default function Home() {
   };
   useEffect(() => {
     async function fetchMovies() {
-      let data = await fetchPopular();
-      popularMovies.current = data;
-      setMovies(data);
-      setLoading(false);
+      try {
+        let data = await fetchPopular();
+        popularMovies.current = data;
+        setMovies(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(`Error while fetching movies: ${error}`);
+      }
     }
     fetchMovies();
   }, []);

@@ -5,20 +5,26 @@ const MovieContext = createContext();
 export const useMovieContext = () => useContext(MovieContext);
 
 export default function MovieContextProvider({ children }) {
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const stored = localStorage.getItem("favorites");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      console.log("Failed to retrieve from local storage.");
+      return [];
+    }
+  });
 
   useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) {
-      setFavorites(JSON.parse(stored));
+    try {
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    } catch {
+      console.log("Error while adding item");
     }
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
   const addToFavorites = (movie) => {
-    if (isFavorite(movie)) {
+    if (isFavorite(movie.id)) {
       console.log("Movie is already added");
       return;
     }
