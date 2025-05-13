@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchPopular, searchMovies } from "../services/api.js";
 import MovieCard from "../components/MovieCard";
 import MovieContextProvider from "../contexts/moviecontext";
@@ -7,6 +7,8 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const popularMovies = useRef([]);
+
   const handleQuery = (e) => {
     e.preventDefault();
     setQuery(e.target.value);
@@ -14,13 +16,17 @@ export default function Home() {
   useEffect(() => {
     async function fetchMovies() {
       let data = await fetchPopular();
+      popularMovies.current = data;
       setMovies(data);
       setLoading(false);
     }
     fetchMovies();
   }, []);
   useEffect(() => {
-    if (!query.trim()) return;
+    if (!query.trim()) {
+      setMovies(popularMovies.current);
+      return;
+    }
     const handler = setTimeout(() => {
       async function search() {
         setLoading(true);
@@ -48,6 +54,7 @@ export default function Home() {
 
       <div className="grid grid-cols-4 gap-5 mt-5">
         {loading && <p>Loading</p>}
+        {movies === popularMovies.current}
         {!loading &&
           movies.length > 0 &&
           movies.map((movie) => <MovieCard movie={movie} key={movie.id} />)}
